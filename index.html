@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width,initial-scale=1,viewport-fit=cover"
+    />
+    <title>TUA?</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;600&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="deck">
+      <!-- KOTAK 1: amplop pembuka -->
+      <section class="scene" id="mulai">
+        <a class="envelope" href="#hadiah" aria-label="Buka amplop"
+          ><b>APAANYAKKKK??</b><i class="bow"></i
+        ></a>
+      </section>
+
+      <!-- KOTAK 2: kotak hadiah -->
+      <section class="scene" id="hadiah">
+        <i class="leaf" style="top: 28px; left: 22px; rotate: 30deg"></i>
+        <i class="leaf" style="top: 60px; right: 26px; rotate: -40deg"></i>
+        <div class="card card--terra">
+          <h1 class="t">MET ULTAH ANANDA ARYTUS MAGHFIROTUL PASYA</h1>
+          <a href="#menu" class="gift" aria-label="Buka hadiahmu"></a>
+          <p class="t" style="font-size: 1rem">TOUCH ME</p>
+        </div>
+      </section>
+
+      <!-- KOTAK 3: menu hadiah -->
+      <section class="scene" id="menu">
+        <i class="picnic"></i>
+        <div class="card card--plaid">
+          <h2 class="t">Happy birthday, Pasya! ♥</h2>
+          <p class="cap" style="margin: 10px 0 0">
+            SEMOGAA TAHUN INI SEMAKIN GACOR, SEMAKIN BAHAGIA, SEMAKIN SEHAT, DAN
+            SEMAKIN SUKSES. AMINNNN
+          </p>
+          <span class="note" style="margin-top: 14px">PICK YOUR FAVORITE</span>
+          <nav class="menu">
+            <a class="item" href="#kenangan"
+              ><i class="ico cam"></i><span class="tag">OUR MEMORIES</span></a
+            >
+            <a class="item" href="#pesan"
+              ><i class="ico mail"></i><span class="tag">SURAT CINTAH</span></a
+            >
+            <a class="item" href="#musik"
+              ><i class="ico disc"></i><span class="tag">MUSYIKK</span></a
+            >
+          </nav>
+        </div>
+      </section>
+      <section class="scene" id="kenangan">
+        <div class="memento">
+          <div class="film">
+            <button
+              class="frame sky"
+              type="button"
+              data-foto="pasya.jpg"
+              data-caption="BEFORE INSIDEN NYUNGSRUK TIKUNGAN MCD KOTWIS"
+              aria-label="Lihat foto 1"
+            >
+              <img src="pasya.jpg" alt="Foto Pasya 1" />
+            </button>
+            <button
+              class="frame sky"
+              type="button"
+              data-foto="pasya2.jpg"
+              data-caption="FIRST TIME NGONSER BARENG #BANGORFEST"
+              aria-label="Lihat foto 2"
+            >
+              <img src="pasya2.jpg" alt="Foto Pasya 2" />
+            </button>
+            <button
+              class="frame sky"
+              type="button"
+              data-foto="pasya3.jpg"
+              data-caption="NJAJAN BARENG SAMPE KENYANG BEGO"
+              aria-label="Lihat foto 3"
+            >
+              <img src="pasya3.jpg" alt="Foto Pasya 3" />
+            </button>
+          </div>
+          <div>
+            <p class="cap">Our best memories. Klik foto di kiri!</p>
+            <div class="camera">
+              <div class="sky">
+                <img id="foto-besar" src="pasya.jpg" alt="Foto kenangan" />
+              </div>
+            </div>
+            <p class="moment" id="bubble" aria-live="polite"></p>
+          </div>
+        </div>
+        <a class="back" href="#menu">Kembali</a>
+      </section>
+      <section class="scene" id="pesan">
+        <div class="mailbox">
+          <div class="paper paper--link">
+            <span class="stamp" aria-hidden="true">♥</span>
+            <i class="docico" aria-hidden="true"></i>
+            <p class="t" style="font-size: 1.05rem">SURAT CINTA EUYY!</p>
+            <p class="isi-kecil">
+              NI NGALAHIN TEKS PROKLAMASI, JAN KETIDURAN YEE!
+            </p>
+            <a
+              class="btn-doc"
+              href="Ghttps://docs.google.com/document/d/1duIZZXHJCH-hvHTGdEW-qcPcCN7BOg48Q_c1UBziFmw/edit?usp=sharing"
+              target="_blank"
+              rel="noopener"
+            >
+              COBA KECUP ♥
+            </a>
+            <small class="isi-kecil">NGUENGGG</small>
+          </div>
+        </div>
+        <i class="bow" style="margin-top: -32px"></i>
+        <a class="back" href="#menu">Kembali</a>
+      </section>
+      <!-- KOTAK 6: musik (taruh lagu.mp3 di folder yang sama) -->
+      <section class="scene" id="musik">
+        <div class="player" id="player">
+          <div class="bubble">INILAH LAGUU KITAHHHH!</div>
+          <div class="vinyl"></div>
+          <div class="track">
+            DEDICATED TO U
+            <iframe
+              class="embed"
+              src="https://open.spotify.com/embed/track/5WOSNVChcadlsCRiqXE45K?utm_source=generator&si=4f52ce2a33d04869"
+              height="152"
+              loading="lazy"
+              title="sipaling HINDIA"
+              allow="
+                autoplay;
+                clipboard-write;
+                encrypted-media;
+                fullscreen;
+                picture-in-picture;
+              "
+            ></iframe>
+          </div>
+        </div>
+        <a class="back" href="#menu">Kembali</a>
+      </section>
+    </main>
+    <script>
+      var besar = document.getElementById("foto-besar");
+      var bubble = document.getElementById("bubble");
+      var frames = document.querySelectorAll(".film .frame");
+
+      function pilih(b) {
+        besar.src = b.dataset.foto;
+        bubble.textContent = b.dataset.caption;
+        frames.forEach(function (f) {
+          f.classList.toggle("aktif", f === b);
+        });
+        bubble.classList.remove("pop");
+        void bubble.offsetWidth; // supaya animasi muncul lagi
+        bubble.classList.add("pop");
+      }
+      frames.forEach(function (b) {
+        b.addEventListener("click", function () {
+          pilih(b);
+        });
+      });
+      pilih(frames[0]); // foto pertama aktif saat dibuka
+    </script>
+  </body>
+</html>

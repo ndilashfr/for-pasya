@@ -1,0 +1,779 @@
+/* ===== 1. TOKEN (ubah di sini, seluruh tampilan ikut berubah) ===== */
+:root {
+  --sage: #e4f1cf;
+  --gingham: #8cc86044;
+  --leaf: #6e9f4b;
+  --terra: #be7650;
+  --brown: #7a4a2e;
+  --ink: #4a2c1a;
+  --cream: #f6ebd3;
+  --tan: #b09468;
+  --red: #c8402f;
+  --paper: #fffdf6;
+  --rose: #b4414f;
+  --sun: #f4f0b0;
+  --font: "Pixelify Sans", "Courier New", monospace;
+  /* tepi "pixel": bingkai 4px dengan sudut terpotong + bayangan bertingkat */
+  --pxb:
+    0 -4px 0 0 var(--ink), 0 4px 0 0 var(--ink), -4px 0 0 0 var(--ink),
+    4px 0 0 0 var(--ink);
+  --sh: 10px 10px 0 0 #0003;
+}
+
+/* ===== 2. DASAR + SCROLL PER KOTAK ===== */
+* {
+  box-sizing: border-box;
+}
+html,
+body {
+  margin: 0;
+  height: 100%;
+}
+body {
+  font-family: var(--font);
+  color: var(--ink);
+  image-rendering: pixelated;
+}
+.deck {
+  height: 100dvh;
+  overflow-y: auto;
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+}
+.scene {
+  min-height: 100dvh;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  display: grid;
+  place-items: center;
+  padding: 24px 14px 56px;
+  position: relative;
+  overflow: hidden;
+  background-color: var(--sage); /* kotak-kotak gingham hijau */
+  background-image:
+    linear-gradient(90deg, var(--gingham) 50%, transparent 0),
+    linear-gradient(var(--gingham) 50%, transparent 0);
+  background-size: 28px 28px;
+}
+.scene:not(:last-child)::after {
+  content: "scroll ↓";
+  position: absolute;
+  bottom: 14px;
+  left: 50%;
+  translate: -50% 0;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  animation: hop 1.6s steps(2) infinite;
+}
+@keyframes hop {
+  50% {
+    bottom: 20px;
+  }
+}
+@keyframes spin {
+  to {
+    rotate: 360deg;
+  }
+}
+
+/* ===== 3. KARTU ===== */
+.card {
+  width: min(94vw, 560px);
+  min-height: min(68vh, 400px);
+  padding: 22px;
+  display: grid;
+  place-items: center;
+  align-content: center;
+  text-align: center;
+  box-shadow: var(--pxb), var(--sh);
+  position: relative;
+}
+.card--terra {
+  background: var(--terra);
+  color: var(--paper);
+}
+.card--plaid {
+  /* kotak-kotak coklat */
+  background-color: var(--tan);
+  background-image:
+    repeating-linear-gradient(90deg, #ffffff30 0 14px, transparent 14px 28px),
+    repeating-linear-gradient(0deg, #ffffff30 0 14px, transparent 14px 28px);
+}
+
+/* ===== 4. TEKS ===== */
+.t {
+  margin: 0;
+  font-size: clamp(1rem, 4.4vw, 1.55rem);
+  line-height: 1.25;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  text-shadow: 2px 2px 0 #0003;
+}
+.tag {
+  display: inline-block;
+  margin-top: 6px;
+  padding: 2px 10px;
+  background: var(--leaf);
+  color: #fff;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  box-shadow: 0 0 0 2px #fff7;
+}
+.note {
+  display: inline-block;
+  background: var(--sun);
+  padding: 4px 14px;
+  rotate: -3deg;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+}
+.back {
+  position: absolute;
+  right: 16px;
+  bottom: 12px;
+  display: grid;
+  justify-items: center;
+  gap: 2px;
+  font-size: 0.62rem;
+  text-transform: uppercase;
+  color: var(--ink);
+  text-decoration: none;
+  z-index: 2;
+}
+.back::before {
+  content: "";
+  width: 24px;
+  height: 22px;
+  background:
+    linear-gradient(
+      90deg,
+      transparent 40%,
+      var(--brown) 40% 60%,
+      transparent 60%
+    ),
+    #e3b98f;
+  box-shadow: var(--pxb);
+}
+
+/* ===== 5. HIASAN ===== */
+.leaf {
+  position: absolute;
+  width: 48px;
+  height: 24px;
+  background: var(--leaf);
+  border-radius: 0 100% 0 100%;
+  box-shadow: 0 0 0 3px #4c7a33;
+}
+.picnic {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 42vmin;
+  aspect-ratio: 1;
+  background-color: var(--red);
+  background-image:
+    linear-gradient(90deg, #fff9 50%, transparent 0),
+    linear-gradient(#fff9 50%, transparent 0);
+  background-size: 22px 22px;
+  clip-path: polygon(0 100%, 0 38%, 62% 100%);
+}
+
+/* ===== 6. KOTAK HADIAH (tombol) ===== */
+.gift {
+  display: block;
+  width: 150px;
+  height: 120px;
+  margin: 34px auto 20px;
+  padding: 0;
+  border: 0;
+  position: relative;
+  cursor: pointer;
+  background:
+    linear-gradient(
+      90deg,
+      transparent 44%,
+      var(--brown) 44% 56%,
+      transparent 56%
+    ),
+    #e3b98f;
+  box-shadow: var(--pxb);
+}
+.gift::before {
+  content: "";
+  position: absolute;
+  left: -10px;
+  right: -10px;
+  top: -18px;
+  height: 38px;
+  background:
+    linear-gradient(
+      90deg,
+      transparent 44%,
+      var(--brown) 44% 56%,
+      transparent 56%
+    ),
+    #ebc9a5;
+  box-shadow: var(--pxb);
+}
+.gift::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: -30px;
+  width: 26px;
+  height: 20px;
+  margin-left: -13px;
+  background: #e88ba0;
+  box-shadow: 0 0 0 3px var(--ink);
+}
+.gift:hover,
+.gift:focus-visible {
+  translate: 0 -4px;
+  outline: none;
+}
+
+/* ===== 7. MENU HADIAH ===== */
+.menu {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-end;
+  gap: clamp(12px, 5vw, 36px);
+  margin-top: 20px;
+}
+.item {
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  color: inherit;
+  text-decoration: none;
+}
+.item:hover .ico,
+.item:focus-visible .ico {
+  translate: 0 -6px;
+}
+.item:focus-visible {
+  outline: 3px solid var(--ink);
+  outline-offset: 6px;
+}
+.ico {
+  width: 84px;
+  height: 64px;
+  position: relative;
+  transition: translate 0.15s steps(2);
+}
+.cam {
+  background: #2b2623;
+  box-shadow: var(--pxb);
+}
+.cam::before {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 36px;
+  height: 36px;
+  margin: -18px 0 0 -18px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #8fc9f2 0 24%, #555 25% 55%, #ccc 56%);
+}
+.mail {
+  background: #e8dcc0;
+  box-shadow: var(--pxb);
+}
+.mail::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: #cdbb97;
+  clip-path: polygon(0 0, 100% 0, 50% 60%);
+}
+.disc {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: radial-gradient(circle, var(--terra) 0 18%, #222 19%);
+}
+
+/* ===== 8. KENANGAN (film + kamera) ===== */
+.sky {
+  background:
+    radial-gradient(120% 70% at 30% 112%, #7cb83e 0 58%, transparent 59%),
+    linear-gradient(#9ad3f5, #cbe9fa);
+  overflow: hidden;
+}
+.memento {
+  display: grid;
+  grid-template-columns: 84px 1fr;
+  gap: 14px;
+  width: min(94vw, 640px);
+  align-items: center;
+}
+.film {
+  background: #6b4228;
+  padding: 12px 8px;
+  display: grid;
+  gap: 10px;
+  border-inline: 6px dotted var(--cream);
+  box-shadow: var(--pxb), var(--sh);
+}
+.frame {
+  aspect-ratio: 1;
+  border: 5px solid #ebd6a0;
+}
+.camera {
+  background: #1e1b1a;
+  padding: 14px 14px 20px;
+  border-radius: 12px;
+  box-shadow: var(--sh);
+}
+.camera .sky {
+  aspect-ratio: 4/3;
+  border: 3px solid #444;
+}
+.camera img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 20%;
+  display: block;
+}
+.cap {
+  font-size: 0.8rem;
+  line-height: 1.4;
+  text-transform: uppercase;
+  margin: 0 0 12px;
+}
+
+/* ===== 9. PESAN (kertas buku + amplop) ===== */
+.mailbox {
+  width: min(94vw, 520px);
+  background: var(--brown);
+  padding: 18px 18px 56px;
+  box-shadow: var(--pxb), var(--sh);
+}
+.paper {
+  max-height: 58vh;
+  overflow-y: auto;
+  padding: 4px 18px 20px 34px;
+  background-color: var(--paper);
+  background-image: repeating-linear-gradient(
+    transparent 0 27px,
+    #9cc7e8 27px 28px
+  );
+  border-left: 3px solid #f2a0a0;
+  line-height: 28px;
+}
+.paper p {
+  margin: 0 0 28px;
+}
+.bow {
+  display: block;
+  width: 84px;
+  height: 40px;
+  margin: -24px auto 0;
+  position: relative;
+  z-index: 1;
+  background-color: var(--tan);
+  background-image: repeating-linear-gradient(
+    90deg,
+    #ffffff40 0 8px,
+    transparent 8px 16px
+  );
+  clip-path: polygon(
+    0 0,
+    44% 38%,
+    56% 38%,
+    100% 0,
+    100% 100%,
+    56% 62%,
+    44% 62%,
+    0 100%
+  );
+}
+
+/* ===== 10. MUSIK ===== */
+.player {
+  display: grid;
+  justify-items: center;
+  gap: 16px;
+  width: min(94vw, 500px);
+}
+.bubble {
+  background: #fff;
+  padding: 8px 14px;
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  box-shadow: var(--pxb);
+}
+.vinyl {
+  width: min(56vw, 230px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  animation: spin 6s linear infinite;
+  animation-play-state: paused;
+  background: radial-gradient(
+    circle,
+    var(--terra) 0 17%,
+    #111 18% 20%,
+    #1c1c1c 21% 30%,
+    #111 31% 33%,
+    #222 34%
+  );
+}
+.playing .vinyl {
+  animation-play-state: running;
+}
+.track {
+  width: 100%;
+  padding: 12px 14px;
+  background: var(--rose);
+  color: #fff;
+  box-shadow: var(--pxb), var(--sh);
+}
+.track audio {
+  width: 100%;
+  margin-top: 8px;
+}
+
+/* ===== 11. AMPLOP PEMBUKA ===== */
+.envelope {
+  position: relative;
+  display: block;
+  width: min(88vw, 460px);
+  aspect-ratio: 3/2;
+  background: #b56a3f;
+  color: var(--paper);
+  text-decoration: none;
+  text-align: center;
+  box-shadow: var(--pxb), var(--sh);
+}
+.envelope::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: #9a5530;
+  clip-path: polygon(0 0, 100% 0, 50% 60%);
+}
+.envelope b {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 46%;
+  font-weight: 600;
+  font-size: 1rem;
+  text-transform: uppercase;
+  z-index: 1;
+}
+.envelope .bow {
+  position: absolute;
+  left: 50%;
+  top: 56%;
+  translate: -50% 0;
+  margin: 0;
+  width: 96px;
+  height: 46px;
+}
+
+/* ===== 12. AKSESIBILITAS ===== */
+@media (prefers-reduced-motion: reduce) {
+  .deck {
+    scroll-behavior: auto;
+  }
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+@media (max-width: 420px) {
+  .memento {
+    grid-template-columns: 64px 1fr;
+    gap: 10px;
+  }
+}
+.film button.frame {
+  display: block;
+  width: 100%;
+  padding: 0;
+  overflow: hidden;
+  cursor: pointer;
+}
+.film .frame img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 20%;
+  display: block;
+}
+.film .frame:focus-visible {
+  outline: 3px solid var(--rose);
+  outline-offset: 2px;
+}
+.film .frame:hover {
+  translate: 4px 0;
+}
+/* bubble momen */
+.moment {
+  position: relative;
+  margin: 26px 6px 0;
+  padding: 10px 14px;
+  min-height: 3.4em;
+  background: #fff;
+  color: var(--ink);
+  font-size: 0.85rem;
+  line-height: 1.4;
+  text-transform: uppercase;
+  box-shadow: var(--pxb), var(--sh);
+}
+.moment::before {
+  content: "";
+  position: absolute;
+  left: 24px;
+  top: -24px;
+  width: 24px;
+  height: 28px;
+  background: var(--ink);
+  clip-path: polygon(50% 0, 0 100%, 100% 100%);
+}
+.moment::after {
+  content: "";
+  position: absolute;
+  left: 28px;
+  top: -18px;
+  width: 16px;
+  height: 22px;
+  background: #fff;
+  clip-path: polygon(50% 0, 0 100%, 100% 100%);
+}
+.moment.pop {
+  animation: muncul 0.25s steps(3);
+}
+@keyframes muncul {
+  from {
+    translate: 0 8px;
+    opacity: 0;
+  }
+  to {
+    translate: 0 0;
+    opacity: 1;
+  }
+}
+
+/* foto kecil yang sedang aktif */
+.film .frame.aktif {
+  border-color: var(--rose);
+}
+/* ===== perbaikan ukuran halaman kenangan ===== */
+.memento {
+  grid-template-columns: 116px minmax(0, 1fr);
+  gap: 22px;
+  width: min(94vw, 760px);
+  align-items: center;
+}
+.film {
+  padding: 14px 10px;
+}
+
+/* foto dibatasi tingginya, jadi tidak pernah lebih tinggi dari layar */
+.memento > div:last-child {
+  display: grid;
+  justify-items: center;
+}
+.camera {
+  width: fit-content;
+  max-width: 100%;
+  padding: 12px 12px 18px;
+}
+.camera .sky {
+  height: min(42vh, 360px);
+  aspect-ratio: 4/3;
+  max-width: 100%;
+}
+
+/* bubble: lebih ringkas, di tengah, ekor menunjuk ke foto */
+.moment {
+  width: min(100%, 420px);
+  margin: 30px auto 0;
+  text-align: center;
+  font-size: 0.8rem;
+}
+.moment::before {
+  left: calc(50% - 12px);
+}
+.moment::after {
+  left: calc(50% - 8px);
+}
+
+/* HP */
+@media (max-width: 560px) {
+  .memento {
+    grid-template-columns: 72px minmax(0, 1fr);
+    gap: 12px;
+  }
+  .camera .sky {
+    height: auto;
+    width: 100%;
+  }
+}
+/* ===== surat berupa link Google Docs ===== */
+.paper--link {
+  max-height: none;
+  overflow: visible;
+  display: grid;
+  justify-items: center;
+  gap: 12px;
+  padding: 22px 18px 22px 34px;
+  text-align: center;
+  line-height: 1.35;
+  position: relative;
+}
+.paper--link .t {
+  margin: 0;
+  text-shadow: none;
+}
+.isi-kecil {
+  margin: 0;
+  font-size: 0.8rem;
+  line-height: 1.4;
+  opacity: 0.8;
+}
+
+/* ikon dokumen yang bergoyang */
+.docico {
+  position: relative;
+  width: 64px;
+  height: 80px;
+  margin: 6px 0 4px;
+  rotate: -5deg;
+  background:
+    linear-gradient(#5b8def 0 20px, transparent 20px),
+    repeating-linear-gradient(transparent 0 8px, #9cc7e8 8px 10px) 0 28px/100%
+      40px no-repeat,
+    #fff;
+  box-shadow:
+    var(--pxb),
+    6px 6px 0 0 #0003;
+  animation: goyang 1.6s steps(2) infinite;
+}
+.docico::after {
+  content: "♥";
+  position: absolute;
+  right: -12px;
+  bottom: -12px;
+  width: 26px;
+  height: 26px;
+  display: grid;
+  place-items: center;
+  background: var(--rose);
+  color: #fff;
+  font-size: 0.9rem;
+  box-shadow: 0 0 0 3px var(--ink);
+}
+@keyframes goyang {
+  50% {
+    rotate: 5deg;
+  }
+}
+
+/* perangko */
+.stamp {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  width: 34px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  background: var(--sun);
+  border: 3px dotted var(--rose);
+  color: var(--rose);
+  rotate: 6deg;
+}
+
+/* tombol pixel */
+.btn-doc {
+  display: inline-block;
+  padding: 11px 20px;
+  background: var(--rose);
+  color: #fff;
+  text-decoration: none;
+  text-transform: uppercase;
+  font-size: 0.95rem;
+  box-shadow: var(--pxb), var(--sh);
+  transition: translate 0.1s steps(2);
+}
+.btn-doc:hover,
+.btn-doc:focus-visible {
+  translate: 0 -3px;
+  outline: none;
+}
+.btn-doc:active {
+  translate: 4px 4px;
+  box-shadow: var(--pxb);
+}
+/* embed lagu */
+.embed {
+  display: block;
+  width: 100%;
+  margin-top: 10px;
+  border: 0;
+  border-radius: 12px;
+}
+.yt {
+  margin-top: 10px;
+  aspect-ratio: 16/9;
+  width: 100%;
+}
+.yt iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+/* karena embed tidak bisa memberi tahu kapan lagu diputar, piringan hitam berputar terus */
+#player .vinyl {
+  animation-play-state: running;
+}
+/* piringan hitam dengan kilau + penanda supaya putarannya kelihatan */
+.vinyl {
+  position: relative;
+  background:
+    conic-gradient(
+      from 20deg,
+      transparent 0 18%,
+      #ffffff2e 24%,
+      transparent 30% 68%,
+      #ffffff2e 74%,
+      transparent 80%
+    ),
+    radial-gradient(
+      circle,
+      var(--terra) 0 17%,
+      #111 18% 20%,
+      #1c1c1c 21% 30%,
+      #111 31% 33%,
+      #222 34%
+    );
+  box-shadow: var(--pxb), var(--sh);
+}
+/* titik kecil di label supaya jelas ikut berputar */
+.vinyl::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 12px;
+  height: 12px;
+  margin: -32px 0 0 -6px;
+  background: var(--cream);
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px var(--ink);
+}
+
+/* rapatkan jarak antar elemen */
+.player {
+  gap: 10px;
+}
+.vinyl {
+  width: min(48vw, 200px);
+}
